@@ -15,9 +15,15 @@ _Starting files and directory structure for php projects. See the composer.json 
 * _Update Class names and Test names as appropriate_
 
 ## Specs (include project specs below)
-* _spec 1_
-* _spec 2_
-* _spec 3_
+1. User can add students to a database that includes students names and enrollment date
+    * _Example Input: "Tom Newman" and "August 12 2016"_
+    * _Example Output: "true"_
+2. User can create courses in the database that include course name and course number
+    * _Example Input: "Introduction to Programming" and "CS101"_
+    * _Example Output: "true"_
+3. User can assign students to courses in the database- students can have many classes and classes will have many students
+    * _Example Input: "Tom Newman" and "CS101"_
+    * _Example Output: "true"_
 * _..._
 
 ## Known Bugs

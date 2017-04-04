@@ -1,16 +1,47 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <script src="../scripts/jquery-3.2.0.js"></script>
-    <script src="../scripts/bootstrap.js"></script>
-    <script src="../scripts/scripts.js"></script>
-    <link href="../css/bootstrap.css" type="text/css" rel="stylesheet">
-    <link href="../css/styles.css" type="text/css" rel="stylesheet">
-    <title>Project Title</title>
-  </head>
-  <body>
-    <div class="container">
-      <h1>Project Title</h1>
-    </div>
-  </body>
-</html>
+{% include 'pagehead.html.twig' %}
+      <h1>Registrar Dashboard</h1>
+      <div class="row">
+        <div class="col-md-8">
+          <h2>Input New Course</h2>
+          <form action="/new_course" method="post">
+            <div class='form-group'>
+              <label for="course_title">Course Title</label>
+              <input id="course_title" name="course_title" type="text" class="form-control" placeholder="Course Title">
+            </div>
+            <div class='form-group'>
+              <label for="course_code">Course Code</label>
+              <input id="course_code" name="course_code" type="text" class="form-control" placeholder="Course Code">
+            </div>
+            <div class='form-group'>
+            <div class='form-group'>
+              <button type="submit" class="btn btn-primary">Add New Course</button>
+            </div>
+            <h2>Input New Student</h2>
+          </form>
+          <form action="/new_student" method="post">
+              <label for="student_name">Student Full Name</label>
+              <input id="student_name" name="student_name" type="text" class="form-control" placeholder="Student Full Name">
+            </div>
+            <div class='form-group'>
+              <label for="enroll_date">Enrollment Date (YYYY-MM-DD)</label>
+              <input id="enroll_date" name="enroll_date" type="text" class="form-control" placeholder="Enrollment Date (YYYY-MM-DD)">
+            </div>
+            <div class='form-group'>
+              <h5>Select Classes</h5>
+              <!--replace form below with one created from the registrars inputs-->
+
+            {% for course in courses %}
+              <input type="checkbox" name="course_select[]" value="{{ course.getCourseId }}" /> {{ course.getCourseTitle }}<br>
+            {% endfor %}
+            </div>
+            <div class='form-group'>
+              <button type="submit" class="btn btn-primary">Add New Student</button>
+            </div>
+          </form>
+        </div>
+        <div class="col-md-4">
+          <h2><a href="#">View All Students</a></h2>
+          <h2><a href="#">View All Courses</a></h2>
+        </div>
+      </div>
+{% include 'pagefoot.html.twig' %}

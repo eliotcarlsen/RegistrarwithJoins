@@ -1,0 +1,9 @@
+{% include 'pagehead.html.twig' %}
+<h2>Test result page</h2>
+{% for student in students %}
+  {{ student.getStudentName }}
+{% endfor %}
+{% for course in courses %}
+  {{ course.getCourseTitle }}
+{% endfor %}
+{% include 'pagefoot.html.twig' %}
