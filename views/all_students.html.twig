@@ -3,14 +3,13 @@
       <div class="row">
         <div class="col-md-8">
           {% if students is not empty %}
-          <h2>{{ students.getStudentName }}</h2>
-
+          <h2>All Students</h2>
           <ul>
-            {% for course in courses %}
-            <li>{{ course.getCourseTitle }}, {{ course.getCourseCode}}</li>
+            {% for student in students %}
+            <li><a href="/edit_student/{{ student.getStudentId }}">{{ student.getStudentName }}, {{ student.getEnrollDate}}</a></li>
             {% endfor %}
           </ul>
-          <a href="/new_student/{{ students.getStudentId }}" class="btn btn-primary">Edit Student</a>
+
           {% endif %}
         </div>
         <div class="col-md-4">

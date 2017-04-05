@@ -1,0 +1,25 @@
+{% include 'pagehead.html.twig' %}
+      <h1>Registrar Dashboard</h1>
+      <div class="row">
+        <div class="col-md-8">
+          {% if courses is not empty %}
+          <h2>{{ courses.getCourseTitle }}</h2>
+          <h3>Students currently enrolled in {{ courses.getCourseCode }}</h3>
+          <ul>
+            {% for student in students %}
+            <li>{{ student.getStudentName }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+
+        </div>
+
+
+        <div class="col-md-4">
+            <h2><a href="/">Home</a></h2>
+            <h2><a href="/new_course">View All Courses</a></h2>
+            <h2><a href="#">View All Students</a></h2>
+        </div>
+      </div>
+
+{% include 'pagefoot.html.twig' %}

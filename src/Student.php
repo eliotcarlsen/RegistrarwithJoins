@@ -64,6 +64,38 @@
             }
         }
 
+        function getCoursesUsingJoin()
+        {
+            $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM students JOIN courses_students ON (courses_students.student_id = students.id) JOIN courses ON (courses.id = courses_students.course_id) WHERE students.id = {$this->getStudentId};");
+            $courses = array();
+            foreach($returned_courses as $course) {
+              $title = $course['course_title'];
+              $code = $course['course_code'];
+              $id = $course['id'];
+              $new_course = new Course($title, $code, $id);
+              array_push($courses, $new_course);
+            }
+            return $courses;
+        }
+
+        function getCourses()
+        {
+            $query = $GLOBALS['DB']->query("SELECT course_id FROM courses_students WHERE student_id = {$this->getStudentId()};");
+            $course_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+            $courses = array();
+            foreach($course_ids as $id) {
+                $course_id = $id['course_id'];
+                $result = $GLOBALS['DB']->query("SELECT * FROM courses WHERE id = {$course_id};");
+                $returned_course = $result->fetchAll(PDO::FETCH_ASSOC);
+                $course_title = $returned_course[0]['course_title'];
+                $course_code = $returned_course[0]['course_code'];
+                $id = $returned_course[0]['id'];
+                $new_course = new Course($course_title, $course_code, $id);
+                array_push($courses, $new_course);
+            }
+            return $courses;
+        }
+
         static function getAll()
         {
             $returned_students = $GLOBALS['DB']->query("SELECT * FROM students;");
@@ -94,6 +126,17 @@
             }
         }
 
+        function updateEnrollment($new_enrollment)
+        {
+            $executed = $GLOBALS['DB']->exec("UPDATE students SET enroll_date = '{$new_enrollment}' WHERE id = {$this->getStudentId()};");
+            if ($executed) {
+              $this->setEnrollDate($new_enrollment);
+              return true;
+            } else {
+              return false;
+            }
+        }
+
         static function find($search_id)
         {
             $found_student = null;
@@ -105,7 +148,7 @@
               $enroll_date = $student['enroll_date'];
               $id = $student['id'];
               if($id == $search_id){
-                $found_student = new Student($student_name, $enroll_date, $student_id);
+                $found_student = new Student($student_name, $enroll_date, $id);
               }
             }
             return $found_student;

@@ -43,6 +43,24 @@
           return $this->id;
         }
 
+        function getStudents()
+        {
+            $query = $GLOBALS['DB']->query("SELECT student_id FROM courses_students WHERE course_id = {$this->getCourseId()};");
+            $student_ids = $query->fetchAll(PDO::FETCH_ASSOC);
+            $students = array();
+            foreach($student_ids as $id) {
+                $student_id = $id['student_id'];
+                $result = $GLOBALS['DB']->query("SELECT * FROM students WHERE id = {$student_id};");
+                $returned_student = $result->fetchAll(PDO::FETCH_ASSOC);
+                $student_name = $returned_student[0]['student_name'];
+                $enroll_date = $returned_student[0]['enroll_date'];
+                $id = $returned_student[0]['id'];
+                $new_student = new Student($student_name, $enroll_date, $id);
+                array_push($students, $new_student);
+            }
+            return $students;
+        }
+
         function save()
         {
             $executed = $GLOBALS['DB']->exec("INSERT INTO courses (course_title, course_code) VALUES ('{$this->getCourseTitle()}', '{$this->getCourseCode()}');");
