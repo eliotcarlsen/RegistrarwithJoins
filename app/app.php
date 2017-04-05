@@ -27,13 +27,10 @@
       $student = new Student($_POST['student_name']);
       $student->save();
       $results = $_POST['course_select'];
-
       foreach($results as $result){
           $student->joinSave($result);
       }
-
-
-      return $app['twig']->render('student.html.twig', array('students' => Student::getAll(), 'courses' => Course::getAll()));
+      return $app['twig']->render('student.html.twig', array('students' => $student));
     });
 
     $app->post("/new_course", function() use ($app){

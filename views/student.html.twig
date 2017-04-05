@@ -2,9 +2,10 @@
       <h1>Registrar Dashboard</h1>
       <div class="row">
         <div class="col-md-8">
-          <h2>All Current Students</h2>
-          List all students with enrollment dates here- include an edit button
-          </form>
+          {% if students is not empty %}
+          <h2>{{ students.getStudentName }}</h2>
+          {% endif %}
+
         </div>
         <div class="col-md-4">
           <h2><a href="#">Home</a></h2>
