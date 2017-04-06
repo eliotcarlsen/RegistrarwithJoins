@@ -2,6 +2,7 @@
     require_once __DIR__."/../vendor/autoload.php";
     require_once __DIR__."/../src/Student.php";
     require_once __DIR__."/../src/Course.php";
+    require_once __DIR__."/../src/Department.php";
     use Symfony\Component\HttpFoundation\Request;
     Request::enableHttpMethodParameterOverride();
     use Symfony\Component\Debug\Debug;
@@ -29,9 +30,28 @@
     });
 
     $app->post("/new_course", function() use ($app){
-      $course = new Course($_POST['course_title'], $_POST['course_code']);
+      $course = new Course($_POST['course_title'],$_POST['course_code']);
       $course->save();
-      return $app['twig']->render('course.html.twig', array('courses' => Course::getAll()));
+      $course_id = $course->getCourseId();
+      $dept_array = Department::getDeptArray();
+      if(in_array($_POST['department_name'], $dept_array))
+      {
+        $new_department = Department::findDeptByName($_POST['department_name']);
+        var_dump($new_department);
+        $results = $new_department->coursesForDeparts();
+        $new_department->joinSave($course_id);
+        $departments = Department::getAll();
+        $courses = $new_department->getCourses();
+        return $app['twig']->render('course.html.twig', array('courses' => Course::getAll(), 'departments' => Department::getAll(), 'department_courses' => $courses, 'results'=>$results));
+      } else {
+        $new_department = new Department($_POST['department_name']);
+        $new_department->save();
+        $results = $new_department->coursesForDeparts();
+        $new_department->joinSave($course_id);
+        $departments = Department::getAll();
+        $courses = $new_department->getCourses();
+        return $app['twig']->render('course.html.twig', array('courses' => Course::getAll(), 'departments' => Department::getAll(), 'department_courses' => $courses, 'results'=>$results));
+      }
     });
 
     $app->get("/new_course/{id}", function($id) use ($app){
@@ -48,20 +68,21 @@
           $student->joinSave($result);
       }
       $all_courses = $student->getCourses();
+
       return $app['twig']->render('student.html.twig', array('students' => $student, 'courses' => $all_courses));
     });
 
     // creates area to edit student name, enroll date and courses on the student.html page
     $app->get("/new_student/{id}", function($id) use ($app){
       $current_student = Student::find($id);
-      $all_courses = $current_student->getCoursesUsingJoin();
+      $all_courses = $current_student->getCourses();
       $courses = Course::getAll();
       return $app['twig']->render('student_edit.html.twig', array('students' => $current_student, 'courses' => $all_courses, 'all_courses' => $courses));
     });
 
     $app->get("/edit_student/{id}", function($id) use($app) {
       $student = Student::find($id);
-      $all_courses = $student->getCoursesUsingJoin();
+      $all_courses = $student->getCourses();
       $courses = Course::getAll();
       return $app['twig']->render('student_edit.html.twig', array('students' => $student, 'courses' => $all_courses, 'all_courses' => $courses));
     });

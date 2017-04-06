@@ -55,13 +55,12 @@
         function test_getAll()
         {
             $student_name = "Tom Sawyer";
-            $enroll_date = '2016-09-21';
+            $enroll_date = date('Y-m-d');
             $student_name2 = "Huckleberry Finn";
-            $enroll_date2 = '2015-09-27';
             $id= null;
             $test_student = new Student($student_name, $enroll_date, $id);
             $test_student->save();
-            $test_student2 = new Student($student_name2, $enroll_date2, $id);
+            $test_student2 = new Student($student_name2, $enroll_date, $id);
             $test_student2->save();
             $result = Student::getAll();
             $this->assertEquals([$test_student, $test_student2], $result);
@@ -99,12 +98,11 @@
         function test_find()
         {
           $student_name = "Tom Sawyer";
-          $enroll_date = '2016-09-21';
+          $enroll_date = date('Y-m-d');
           $student_name2 = "Huckleberry Finn";
-          $enroll_date2 = '2015-09-27';
           $test_student = new Student($student_name, $enroll_date);
           $test_student->save();
-          $test_student2 = new Student($student_name2, $enroll_date2);
+          $test_student2 = new Student($student_name2, $enroll_date);
           $test_student2->save();
           $result = Student::find($test_student->getStudentId());
 

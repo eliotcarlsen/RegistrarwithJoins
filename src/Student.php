@@ -64,6 +64,16 @@
             }
         }
 
+        static function declareMajor($department_id)
+        {
+            $executed = $GLOBALS['DB']->exec("INSERT INTO departments_students (department_id, student_id) VALUES ($department_id, {$this->getStudentId()};)");
+            if ($executed) {
+              return true;
+            } else {
+              return false;
+            }
+        }
+
         function getCoursesUsingJoin()
         {
             $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM students JOIN courses_students ON (courses_students.student_id = students.id) JOIN courses ON (courses.id = courses_students.course_id) WHERE students.id = {$this->getStudentId};");
