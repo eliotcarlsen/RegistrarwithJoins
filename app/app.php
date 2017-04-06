@@ -37,7 +37,6 @@
       if(in_array($_POST['department_name'], $dept_array))
       {
         $new_department = Department::findDeptByName($_POST['department_name']);
-        var_dump($new_department);
         $results = $new_department->coursesForDeparts();
         $new_department->joinSave($course_id);
         $departments = Department::getAll();
