@@ -3,7 +3,7 @@
       <div class="row">
         <div class="col-md-8">
           {% if courses is not empty %}
-          <h2>{{ courses.getCourseTitle }}</h2>
+          <h2>{{ courses.getCourseTitle }}-{{ courses.getCourseCode }}</h2>
           <h3>Students currently enrolled in {{ courses.getCourseCode }}</h3>
           <ul>
             {% for student in students %}
@@ -19,6 +19,7 @@
             <h2><a href="/">Home</a></h2>
             <h2><a href="/new_course">View All Courses</a></h2>
             <h2><a href="/all_students">View All Students</a></h2>
+            <h2><a href="/all_departments">View All Departments</a></h2>
         </div>
       </div>
 

@@ -54,7 +54,7 @@
 
         function getCoursesUsingJoin()
         {
-            $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM departments JOIN courses_departments ON (courses_departments.department_id = departments.id) JOIN courses ON (courses.id = courses_departments.course_id) WHERE departments.id = {$this->getDepartmentId()};");
+            $returned_courses = $GLOBALS['DB']->query("SELECT courses.* FROM courses JOIN courses_departments ON (courses_departments.course_id = courses.id) JOIN departments ON (departments.id = courses_departments.department_id) WHERE departments.id = {$this->getDepartmentId()};");
             $courses = array();
             foreach($returned_courses as $course) {
               $title = $course['course_title'];

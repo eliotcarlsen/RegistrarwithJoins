@@ -29,6 +29,16 @@
       return $app['twig']->render('course.html.twig', array('courses' => Course::getAll()));
     });
 
+    $app->get("/all_departments", function() use ($app){
+      return $app['twig']->render('all_departments.html.twig', array('departments' => Department::getAll()));
+    });
+
+    $app->get("/department/{id}", function($id) use ($app){
+      $department = Department::find($id);
+      $courses = $department->getCoursesUsingJoin();
+      return $app['twig']->render('department.html.twig', array('courses'=>$courses, 'department'=>$department));
+    });
+
     $app->post("/new_course", function() use ($app){
       $course = new Course($_POST['course_title'],$_POST['course_code']);
       $course->save();
